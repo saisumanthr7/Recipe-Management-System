@@ -1,5 +1,6 @@
 package com.recipemanagementsystem.demo.Controller;
 
+import com.recipemanagementsystem.demo.Dto.AuthenticationRequest;
 import com.recipemanagementsystem.demo.Dto.AuthenticationResponse;
 import com.recipemanagementsystem.demo.Dto.SignupRequest;
 import com.recipemanagementsystem.demo.Services.auth.AuthService;
@@ -23,5 +24,13 @@ public class AuthController {
             ){
         AuthenticationResponse authenticationResponse = authService.register(signupRequest);
         return ResponseEntity.ok(authenticationResponse);
+    }
+
+    @PostMapping("/authenticate")
+    public ResponseEntity<AuthenticationResponse> authenticate(
+            @RequestBody AuthenticationRequest authenticationRequest
+            )
+    {
+        return ResponseEntity.ok(authService.authenticate(authenticationRequest));
     }
 }
