@@ -1,5 +1,5 @@
 {
-  "name": "recipe-management-system",
+  "name": "angular-bootstrap",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -7,7 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr:Recipe-Management-System": "node dist/recipe-management-system/server/server.mjs"
+    "serve:ssr:angular-bootstrap": "node dist/angular-bootstrap/server/server.mjs"
   },
   "private": true,
   "dependencies": {

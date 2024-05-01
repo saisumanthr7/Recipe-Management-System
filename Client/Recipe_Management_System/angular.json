@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "Recipe-Management-System": {
+    "angular-bootstrap": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/recipe-management-system",
+            "outputPath": "dist/angular-bootstrap",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -67,10 +67,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "Recipe-Management-System:build:production"
+              "buildTarget": "angular-bootstrap:build:production"
             },
             "development": {
-              "buildTarget": "Recipe-Management-System:build:development"
+              "buildTarget": "angular-bootstrap:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -78,7 +78,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "Recipe-Management-System:build"
+            "buildTarget": "angular-bootstrap:build"
           }
         },
         "test": {
@@ -104,6 +104,6 @@
     }
   },
   "cli": {
-    "analytics": "43960d07-d07d-44ce-b68a-a3dccd01c2a5"
+    "analytics": false
   }
 }

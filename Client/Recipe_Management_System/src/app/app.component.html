@@ -1,0 +1,45 @@
+<header class="header">
+  <div class="container d-flex justify-content-between align-items-center">
+    <a routerLink="/login" class="logo">Recipe Management System</a>
+    <div class="nav-links">
+      <button routerLink="/login" class="btn btn-primary mr-2" routerLinkActive="active">Login</button>
+      <button routerLink="/signup" class="btn btn-secondary" routerLinkActive="active">Signup</button>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container text-center">
+    <h1>Welcome to Recipe Management System</h1>
+    <p>Discover and organize your favorite recipes</p>
+    <a href="/login" class="btn btn-primary">Get Started</a>
+  </div>
+</section>
+
+<section class="features">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4">
+        <div class="feature">
+          <h2>Save Your Recipes</h2>
+          <p>Store all your favorite recipes in one place for easy access.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="feature">
+          <h2>Organize Your Collection</h2>
+          <p>Categorize and organize your recipes for quick browsing.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="feature">
+          <h2>Share with Others</h2>
+          <p>Share your favorite recipes with friends and family.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<router-outlet></router-outlet>
