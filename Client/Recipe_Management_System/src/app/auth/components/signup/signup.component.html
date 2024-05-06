@@ -1,48 +1,57 @@
 <div class="container d-flex justify-content-center align-items-center min-vh-100">
-    <div class="row box-area">
-      <div class="col-md-6 text-center left-box">
-        <div class="mb-4">
-          <img src="assets/food.png" class="img-fluid" style="width: 500px;">
+  <div class="row box-area">
+    <div class="col-md-6 text-center left-box">
+      <div class="mb-4">
+        <img src="assets/food.png" class="img-fluid" style="width: 500px;">
+      </div>
+      <h2>Be Verified</h2>
+      <p>Join experienced Designers on this platform.</p>
+    </div>
+    <div class="col-md-6 right-box">
+      <div class="text-center mb-4">
+        <h2>Create an Account</h2>
+        <p class="text-muted">Get started with us today!</p>
+      </div>
+      <form [formGroup]="signupForm" (ngSubmit)="register()">
+        <div class="row">
+          <div class="col-md-6 mb-3 form-group">
+            <label for="firstName">First Name</label>
+            <input type="text" class="form-control form-control-lg" id="firstName" formControlName="firstName" placeholder="First Name">
+            <div *ngIf="signupForm.get('firstName')?.invalid && (signupForm.get('firstName')?.dirty || signupForm.get('firstName')?.touched)" class="text-danger">Please enter your first name!</div>
+          </div>
+          <div class="col-md-6 mb-3 form-group">
+            <label for="lastName">Last Name</label>
+            <input type="text" class="form-control form-control-lg" id="lastName" formControlName="lastName" placeholder="Last Name">
+            <div *ngIf="signupForm.get('lastName')?.invalid && (signupForm.get('lastName')?.dirty || signupForm.get('lastName')?.touched)" class="text-danger">Please enter your last name!</div>
+          </div>
         </div>
-        <h2>Be Verified</h2>
-        <p>Join experienced Designers on this platform.</p>
-      </div> 
-      <div class="col-md-6 right-box">
-        <div class="text-center mb-4">
-          <h2>Create an Account</h2>
-          <p class="text-muted">Get started with us today!</p>
+        <div class="mb-3 form-group">
+          <label for="email">Email</label>
+          <input type="email" class="form-control form-control-lg" id="email" formControlName="email" placeholder="Email">
         </div>
-        <form>
-          <div class="row">
-            <div class="col-md-6 mb-3">
-              <input type="text" class="form-control form-control-lg" placeholder="First Name">
-            </div>
-            <div class="col-md-6 mb-3">
-              <input type="text" class="form-control form-control-lg" placeholder="Last Name">
-            </div>
+        <div class="mb-3 form-group">
+          <label for="password">Password</label>
+          <input type="password" class="form-control form-control-lg" id="password" formControlName="password" placeholder="Password">
+          <div *ngIf="signupForm.get('password')?.invalid && signupForm.get('password')?.dirty || signupForm.get('password')?.touched" class="text-danger">
+            <div *ngIf="signupForm.get('password')?.hasError('required')">Password is required!</div>
+            <div *ngIf="signupForm.get('password')?.hasError('pattern')">Password should contain a minimum of 8 characters, 1 lowercase, 1 uppercase, 1 number and 1 special character</div>
           </div>
-          <div class="mb-3">
-            <input type="email" class="form-control form-control-lg" placeholder="Email address">
+        </div>
+        <div class="mb-3 form-group">
+          <label for="confirmpassword">Confirm Password</label>
+          <input type="password" class="form-control form-control-lg" id="confirmPassword" formControlName="confirmPassword" placeholder="Confirm Password">
+          <div *ngIf="signupForm.get('confirmPassword')?.invalid && signupForm.get('confirmPassword')?.dirty || signupForm.get('confirmPassword')?.touched" class="text-danger">
+            <div *ngIf="signupForm.get('confirmPassword')?.hasError('required')">Please confirm your password!</div>
+            <div *ngIf="signupForm.get('confirmPassword')?.hasError('confirm')">Password does not match</div>
           </div>
-          <div class="mb-3">
-            <input type="password" class="form-control form-control-lg" placeholder="Password">
-          </div>
-          <div class="mb-3">
-            <input type="password" class="form-control form-control-lg" placeholder="Confirm Password">
-          </div>
-          <div class="mb-3 form-check d-flex justify-content-between">
-            <div>
-              <input type="checkbox" class="form-check-input" id="formCheck">
-              <label for="formCheck" class="form-check-label">I agree to the terms and conditions</label>
-            </div>
-          </div>
-          <div class="mb-3">
-            <button class="btn btn-lg btn-primary w-100">Sign Up</button>
-          </div>
-          <div class="mb-3">
-            <small>Already have an account? <a href="login" class="text-muted">Log In</a></small>
-          </div>
-        </form>
-      </div> 
+        </div>
+        <div class="mb-3">
+          
+          <button type="submit" class="btn btn-lg btn-primary w-100" [disabled]="signupForm.invalid || signupForm.get('password')?.value !== signupForm.get('confirmPassword')?.value">Sign Up</button> </div>
+        <div class="mb-3">
+          <span>Already have an account? <a routerLink="/login" class="text-muted">Log In</a></span>
+        </div>
+      </form>
     </div>
   </div>
+</div>

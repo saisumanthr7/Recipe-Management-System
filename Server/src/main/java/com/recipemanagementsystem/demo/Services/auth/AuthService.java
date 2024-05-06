@@ -8,5 +8,6 @@ public interface AuthService {
 
     AuthenticationResponse register(SignupRequest signupRequest);
     AuthenticationResponse authenticate(AuthenticationRequest authenticationRequest);
+    boolean customerEmailExists(String email);
 
 }

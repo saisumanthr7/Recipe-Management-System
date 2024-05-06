@@ -6,30 +6,26 @@ import com.recipemanagementsystem.demo.Dto.SignupRequest;
 import com.recipemanagementsystem.demo.Services.auth.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("RMS/auth")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:4200")
 public class AuthController {
 
     private final AuthService authService;
 
     @PostMapping("/signup")
     public ResponseEntity<AuthenticationResponse> signUp(
-            @RequestBody SignupRequest signupRequest
-            ){
+            @RequestBody SignupRequest signupRequest){
         AuthenticationResponse authenticationResponse = authService.register(signupRequest);
         return ResponseEntity.ok(authenticationResponse);
     }
 
     @PostMapping("/authenticate")
     public ResponseEntity<AuthenticationResponse> authenticate(
-            @RequestBody AuthenticationRequest authenticationRequest
-            )
+            @RequestBody AuthenticationRequest authenticationRequest)
     {
         return ResponseEntity.ok(authService.authenticate(authenticationRequest));
     }
