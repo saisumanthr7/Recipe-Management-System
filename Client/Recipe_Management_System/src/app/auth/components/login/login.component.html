@@ -1,43 +1,50 @@
 <div class="container d-flex justify-content-center align-items-center min-vh-100">
-    <div class="row box-area">
-      <div class="col-md-6 left-box text-center py-5">
-        <div class="mb-4">
-          <img src="assets/food.png" class="img-fluid" style="width: 500px;">
+  <div class="row box-area">
+    <div class="col-md-6 left-box text-center py-5">
+      <div class="mb-4">
+        <img src="assets/food.png" class="img-fluid" style="width: 500px;">
+      </div>
+      <h2 class="text-white mb-4">Be Verified</h2>
+      <p class="text-white">Join experienced Designers on this platform.</p>
+    </div> 
+    <div class="col-md-6 right-box">
+      <div class="text-center mb-4">
+        <h2>Welcome Back</h2>
+        <p class="text-muted">It's great to see you back</p>
+      </div>
+      <form [formGroup]="loginForm" (ngSubmit)="login()">
+        <div class="mb-3">
+          <input type="email" class="form-control form-control-lg" id="email" formControlName="email" placeholder="Email address">
+          <div *ngIf="loginForm.get('email')?.invalid && (loginForm.get('email')?.dirty || loginForm.get('email')?.touched)" class="text-danger">Please enter your email!</div>
         </div>
-        <h2 class="text-white mb-4">Be Verified</h2>
-        <p class="text-white">Join experienced Designers on this platform.</p>
-      </div> 
-      <div class="col-md-6 right-box">
-        <div class="text-center mb-4">
-          <h2>Welcome Back</h2>
-          <p class="text-muted">It's great to see you back</p>
+        <div class="mb-3">
+          <input type="password" class="form-control form-control-lg" id="password" formControlName="password" placeholder="Password">
+          <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.dirty || loginForm.get('password')?.touched" class="text-danger">
+            <div *ngIf="loginForm.get('password')?.hasError('required')">Password is required!</div>
         </div>
-        <form>
-          <div class="mb-3">
-            <input type="email" class="form-control form-control-lg" placeholder="Email address">
+        </div>
+        <!-- <div class="mb-3 form-check d-flex justify-content-between">
+          <div>
+            <input type="checkbox" class="form-check-input" id="formCheck">
+            <label for="formCheck" class="form-check-label">Remember Me</label>
           </div>
-          <div class="mb-3">
-            <input type="password" class="form-control form-control-lg" placeholder="Password">
+          <div>
+            <small><a href="#" class="text-muted">Forgot Password?</a></small>
           </div>
-          <div class="mb-3 form-check d-flex justify-content-between">
-            <div>
-              <input type="checkbox" class="form-check-input" id="formCheck">
-              <label for="formCheck" class="form-check-label">Remember Me</label>
-            </div>
-            <div>
-              <small><a href="#" class="text-muted">Forgot Password?</a></small>
-            </div>
-          </div>
-          <div class="mb-3">
-            <button class="btn btn-lg btn-primary w-100">Login</button>
-          </div>
-          <div class="mb-3">
-            <button class="btn btn-lg btn-google w-100"><img src="images/google.png" style="width:20px" class="me-2">Sign In with Google</button>
-          </div>
-          <div class="mb-3">
-            <small>Don't have an account? <a href="signup" class="text-muted">Sign Up</a></small>
-          </div>
-        </form>
-      </div> 
-    </div>
+        </div> -->
+        <div class="mb-3">
+          <button class="btn btn-lg btn-primary w-100" [disabled]="loginForm.invalid">Login</button>
+        </div>
+        <!-- <div class="mb-3">
+          <button class="btn btn-lg btn-google w-100">
+            <img src="images/google.png" style="width:20px" class="me-2">
+            Sign In with Google
+          </button>
+        </div> -->
+        <div class="mb-3">
+          <small>Don't have an account? <a href="signup" class="text-muted">Sign Up</a></small>
+        </div>
+      </form>
+    </div> 
   </div>
+</div>
