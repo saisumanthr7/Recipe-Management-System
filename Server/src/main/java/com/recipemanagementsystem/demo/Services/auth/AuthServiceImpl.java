@@ -1,9 +1,9 @@
 package com.recipemanagementsystem.demo.Services.auth;
 
 import com.recipemanagementsystem.demo.Configuration.JWTService;
-import com.recipemanagementsystem.demo.Dto.AuthenticationRequest;
-import com.recipemanagementsystem.demo.Dto.AuthenticationResponse;
-import com.recipemanagementsystem.demo.Dto.SignupRequest;
+import com.recipemanagementsystem.demo.Dto.Auth.AuthenticationRequest;
+import com.recipemanagementsystem.demo.Dto.Auth.AuthenticationResponse;
+import com.recipemanagementsystem.demo.Dto.Auth.SignupRequest;
 import com.recipemanagementsystem.demo.Entity.User;
 import com.recipemanagementsystem.demo.Enums.Role;
 import com.recipemanagementsystem.demo.Repository.UserRepository;

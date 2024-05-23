@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Data
 @AllArgsConstructor
@@ -15,6 +17,7 @@ import lombok.NoArgsConstructor;
 public class Recipe {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "recipeId")
     private Long recipeId;
 
     private String recipeName;
@@ -41,6 +44,9 @@ public class Recipe {
     @ManyToOne
     @JoinColumn(name = "recipeCategory_id")
     private RecipeCategory recipeCategory;
+
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
+    private List<RecipeIngredient> recipeIngredientsList;
 
 //    private Method method;
 

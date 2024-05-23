@@ -1,8 +1,10 @@
-package com.recipemanagementsystem.demo.Dto;
+package com.recipemanagementsystem.demo.Dto.Recipe;
 
 import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @Data
 public class RecipeDTO {
@@ -23,5 +25,7 @@ public class RecipeDTO {
     private String yield;
 
     private MultipartFile image;
+
+    private List<RecipeIngredientDTO> recipeIngredientDTOList;
 
 }

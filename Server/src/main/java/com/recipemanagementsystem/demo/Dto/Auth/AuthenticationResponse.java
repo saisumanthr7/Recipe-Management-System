@@ -1,4 +1,4 @@
-package com.recipemanagementsystem.demo.Dto;
+package com.recipemanagementsystem.demo.Dto.Auth;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.recipemanagementsystem.demo.Enums.Role;

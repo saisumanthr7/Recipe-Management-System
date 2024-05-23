@@ -1,6 +1,6 @@
 package com.recipemanagementsystem.demo.Controller;
 
-import com.recipemanagementsystem.demo.Dto.RecipeDTO;
+import com.recipemanagementsystem.demo.Dto.Recipe.RecipeDTO;
 import com.recipemanagementsystem.demo.Services.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

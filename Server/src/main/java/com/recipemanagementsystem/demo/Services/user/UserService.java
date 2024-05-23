@@ -1,6 +1,6 @@
 package com.recipemanagementsystem.demo.Services.user;
 
-import com.recipemanagementsystem.demo.Dto.RecipeDTO;
+import com.recipemanagementsystem.demo.Dto.Recipe.RecipeDTO;
 
 import java.io.IOException;
 
