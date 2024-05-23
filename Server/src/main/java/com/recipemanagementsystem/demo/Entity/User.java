@@ -42,6 +42,9 @@ public class User implements UserDetails {
     @Column(name = "role")
     private Role role;
 
+    @Column(name = "Author")
+    private boolean isAuthor;
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
