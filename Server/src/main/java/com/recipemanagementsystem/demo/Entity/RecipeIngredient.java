@@ -1,5 +1,6 @@
 package com.recipemanagementsystem.demo.Entity;
 
+import com.recipemanagementsystem.demo.Dto.Recipe.RecipeIngredientDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -26,4 +27,13 @@ public class RecipeIngredient {
     private double quantity;
 
     private String unit;
+
+    public RecipeIngredientDTO getRecipeIngredientDTO(){
+        RecipeIngredientDTO recipeIngredientDTO = new RecipeIngredientDTO();
+        recipeIngredientDTO.setIngredientId(this.ingredient.getIngredientId());
+        recipeIngredientDTO.setIngredientName(this.ingredient.getIngredientName());
+        recipeIngredientDTO.setQuantity(this.getQuantity());
+        recipeIngredientDTO.setUnit(this.getUnit());
+        return recipeIngredientDTO;
+    }
 }

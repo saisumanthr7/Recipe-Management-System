@@ -26,6 +26,8 @@ public class RecipeDTO {
 
     private MultipartFile image;
 
+    private byte[] returnedImage;
+
     private List<RecipeIngredientDTO> recipeIngredientDTOList;
 
 }

@@ -7,8 +7,4 @@ import java.io.IOException;
 import java.util.List;
 
 public interface UserService {
-
-    boolean createRecipe(RecipeDTO recipeDTO) throws IOException;
-    boolean updateRecipe(Long recipeId, RecipeDTO recipeDTO);
-    boolean updateRecipeIngredients(Long recipeId, List<RecipeIngredientDTO> recipeIngredientDTOList);
 }

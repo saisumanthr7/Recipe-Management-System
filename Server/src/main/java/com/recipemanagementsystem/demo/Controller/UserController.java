@@ -2,7 +2,7 @@ package com.recipemanagementsystem.demo.Controller;
 
 import com.recipemanagementsystem.demo.Dto.Recipe.RecipeDTO;
 import com.recipemanagementsystem.demo.Dto.Recipe.RecipeIngredientDTO;
-import com.recipemanagementsystem.demo.Services.user.UserService;
+import com.recipemanagementsystem.demo.Services.recipe.RecipeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,11 +16,18 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserController {
 
-    private final UserService userService;
+    private final RecipeService recipeService;
+
+    @GetMapping("/recipes")
+    public ResponseEntity<List<RecipeDTO>> getAllRecipes(){
+        List<RecipeDTO> recipeDTOList = recipeService.getAllRecipes();
+        return ResponseEntity.ok(recipeDTOList);
+    }
 
     @PostMapping("/createRecipe")
-    public <T> ResponseEntity<T> createRecipe(@RequestBody RecipeDTO recipeDTO) throws IOException{
-        boolean success = userService.createRecipe(recipeDTO);
+    public <T> ResponseEntity<T> createRecipe(@RequestBody RecipeDTO recipeDTO) throws IOException
+    {
+        boolean success = recipeService.createRecipe(recipeDTO);
             if(success){
                 return new  ResponseEntity<>(HttpStatus.CREATED);
             }
@@ -30,8 +37,10 @@ public class UserController {
     }
 
     @PutMapping("/updateRecipe/{recipeId}")
-    public <T> ResponseEntity<T> updateRecipe(@PathVariable Long recipeId,@RequestBody RecipeDTO recipeDTO) throws IOException {
-        boolean success = userService.updateRecipe(recipeId, recipeDTO);
+    public <T> ResponseEntity<T> updateRecipe(@PathVariable Long recipeId,
+                                              @RequestBody RecipeDTO recipeDTO) throws IOException
+    {
+        boolean success = recipeService.updateRecipe(recipeId, recipeDTO);
 
         if(success){
             return new ResponseEntity<>(HttpStatus.CREATED);
@@ -41,8 +50,10 @@ public class UserController {
     }
 
     @PutMapping("updateRecipeIngredients/{recipeId}")
-    public <T> ResponseEntity<T> updateRecipeIngredients(@PathVariable Long recipeId, @RequestBody List<RecipeIngredientDTO> recipeIngredientDTOList) throws  IOException {
-        boolean success = userService.updateRecipeIngredients(recipeId, recipeIngredientDTOList);
+    public <T> ResponseEntity<T> updateRecipeIngredients(@PathVariable Long recipeId,
+                                                         @RequestBody List<RecipeIngredientDTO> recipeIngredientDTOList) throws  IOException
+    {
+        boolean success = recipeService.updateRecipeIngredients(recipeId, recipeIngredientDTOList);
 
         if(success) {
             return new ResponseEntity<>(HttpStatus.CREATED);
