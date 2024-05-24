@@ -62,4 +62,16 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+
+    @DeleteMapping("/deleteRecipe/{recipeId}")
+    public ResponseEntity<?> deleteRecipe(@PathVariable Long recipeId){
+        boolean success = recipeService.deleteRecipe(recipeId);
+
+        if(success) {
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        }
+        else{
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
 }

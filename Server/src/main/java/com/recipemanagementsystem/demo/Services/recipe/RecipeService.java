@@ -14,4 +14,6 @@ public interface RecipeService {
     boolean updateRecipeIngredients(Long recipeId, List<RecipeIngredientDTO> recipeIngredientDTOList);
 
     List<RecipeDTO> getAllRecipes();
+
+    boolean deleteRecipe(Long recipeId);
 }

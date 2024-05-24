@@ -179,4 +179,12 @@ public class RecipeServiceImpl implements RecipeService{
         return recipeRepository.findAll().stream().map(Recipe::getRecipeDTO).collect(Collectors.toList());
     }
 
+    public boolean deleteRecipe(Long recipeId){
+        if(recipeId != null && recipeRepository.findById(recipeId) != null){
+            recipeRepository.deleteById(recipeId);
+            return true;
+        }
+        return false;
+    }
+
 }
