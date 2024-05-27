@@ -6,7 +6,7 @@ import com.recipemanagementsystem.demo.Dto.Auth.AuthenticationResponse;
 import com.recipemanagementsystem.demo.Dto.Auth.SignupRequest;
 import com.recipemanagementsystem.demo.Entity.User;
 import com.recipemanagementsystem.demo.Enums.Role;
-import com.recipemanagementsystem.demo.Repository.UserRepository;
+import com.recipemanagementsystem.demo.Repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
