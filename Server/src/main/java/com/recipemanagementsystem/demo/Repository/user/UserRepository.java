@@ -1,4 +1,4 @@
-package com.recipemanagementsystem.demo.Repository;
+package com.recipemanagementsystem.demo.Repository.user;
 
 import com.recipemanagementsystem.demo.Entity.User;
 import com.recipemanagementsystem.demo.Enums.Role;

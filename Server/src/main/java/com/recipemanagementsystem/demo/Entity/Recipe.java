@@ -6,7 +6,6 @@ import com.recipemanagementsystem.demo.Dto.Recipe.RecipeIngredientDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,15 +28,15 @@ public class Recipe {
 
     private int totalTime;
 
-    private int prep_time;
+    private int prepTime;
 
-    private int cook_time;
+    private int cookTime;
 
     private String yield;
 
     @Lob
     @Column(columnDefinition = "BLOB")
-    private byte[] image;
+    private byte[] recipeImage;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -50,6 +49,9 @@ public class Recipe {
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
     private List<RecipeIngredient> recipeIngredientsList;
 
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
+    private List<RecipeInstructions> recipeInstructionsList;
+
 //    private Method method;
 
 //    private Cuisine cuisine;
@@ -60,11 +62,11 @@ public class Recipe {
         recipeDTO.setRecipeName(this.getRecipeName());
         recipeDTO.setDescription(this.getDescription());
         recipeDTO.setTotal_time(this.getTotalTime());
-        recipeDTO.setPrep_time(this.getPrep_time());
-        recipeDTO.setCook_time(this.getCook_time());
+        recipeDTO.setPrep_time(this.getPrepTime());
+        recipeDTO.setCook_time(this.getCookTime());
         recipeDTO.setYield(this.getYield());
-        if(this.getImage() != null){
-            recipeDTO.setReturnedImage(this.getImage());
+        if(this.getRecipeImage() != null){
+            recipeDTO.setReturnedImage(this.getRecipeImage());
         }
         if(this.recipeIngredientsList != null){
             List<RecipeIngredientDTO> recipeIngredientDTOList = this.recipeIngredientsList.stream()

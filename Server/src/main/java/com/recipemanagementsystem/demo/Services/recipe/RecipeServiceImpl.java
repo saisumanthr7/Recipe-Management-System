@@ -2,11 +2,15 @@ package com.recipemanagementsystem.demo.Services.recipe;
 
 import com.recipemanagementsystem.demo.Dto.Recipe.RecipeDTO;
 import com.recipemanagementsystem.demo.Dto.Recipe.RecipeIngredientDTO;
+import com.recipemanagementsystem.demo.Dto.Recipe.RecipeInstructionsDTO;
 import com.recipemanagementsystem.demo.Entity.Ingredient;
 import com.recipemanagementsystem.demo.Entity.Recipe;
 import com.recipemanagementsystem.demo.Entity.RecipeIngredient;
-import com.recipemanagementsystem.demo.Repository.IngredientRepository;
-import com.recipemanagementsystem.demo.Repository.RecipeRepository;
+import com.recipemanagementsystem.demo.Entity.RecipeInstructions;
+import com.recipemanagementsystem.demo.Repository.recipe.IngredientRepository;
+import com.recipemanagementsystem.demo.Repository.recipe.RecipeInstructionsRepository;
+import com.recipemanagementsystem.demo.Repository.recipe.RecipeRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,22 +26,24 @@ public class RecipeServiceImpl implements RecipeService{
 
     private final RecipeRepository recipeRepository;
     private final IngredientRepository ingredientRepository;
+    private final RecipeInstructionsRepository recipeInstructionsRepository;
 
     @Override
+    @Transactional
     public boolean createRecipe(RecipeDTO recipeDTO) throws IOException {
         try{
             Recipe recipe = new Recipe();
             recipe.setRecipeName(recipeDTO.getRecipeName());
             recipe.setDescription(recipeDTO.getDescription());
             recipe.setTotalTime(recipeDTO.getTotal_time());
-            recipe.setPrep_time(recipeDTO.getPrep_time());
-            recipe.setCook_time(recipeDTO.getCook_time());
+            recipe.setPrepTime(recipeDTO.getPrep_time());
+            recipe.setCookTime(recipeDTO.getCook_time());
             recipe.setYield(recipeDTO.getYield());
 
             if (recipeDTO.getImage() != null && !recipeDTO.getImage().isEmpty()) {
-                recipe.setImage(recipeDTO.getImage().getBytes());
+                recipe.setRecipeImage(recipeDTO.getImage().getBytes());
             } else {
-                recipe.setImage(null);
+                recipe.setRecipeImage(null);
             }
 
             List<RecipeIngredient> recipeIngredients = new ArrayList<>();
@@ -68,10 +74,31 @@ public class RecipeServiceImpl implements RecipeService{
                 recipeIngredient.setUnit(ingredientDTO.getUnit());
                 recipeIngredients.add(recipeIngredient);
             }
+
+            List<RecipeInstructions> recipeInstructions = new ArrayList<>();
+            for(RecipeInstructionsDTO recipeInstructionsDTO: recipeDTO.getRecipeInstructionsDTOList()){
+                RecipeInstructions recipeInstructions1 = new RecipeInstructions();
+                recipeInstructions1.setRecipe(recipe);
+                recipeInstructions1.setStepNumber(recipeInstructionsDTO.getStepNumber());
+                recipeInstructions1.setInstruction(recipeInstructionsDTO.getInstruction());
+                if(recipeInstructionsDTO.getInstructionImage() !=null && !recipeInstructionsDTO.getInstructionImage().isEmpty()){
+                    recipeInstructions1.setInstructionImage(recipeInstructionsDTO.getInstructionImage().getBytes());
+                }else {
+                    recipeInstructions1.setInstructionImage(null);
+                }
+                recipeInstructions.add(recipeInstructions1);
+            }
+            recipe.setRecipeInstructionsList(recipeInstructions);
             recipe.setRecipeIngredientsList(recipeIngredients);
             recipeRepository.save(recipe);
             return true;
-        }catch (Exception e){
+        }catch (IOException e) {
+            // Handle specific IOException
+            e.printStackTrace();
+            return false;
+        } catch (Exception e) {
+            // Handle generic exception
+            e.printStackTrace();
             return false;
         }
     }
@@ -87,13 +114,13 @@ public class RecipeServiceImpl implements RecipeService{
                 Recipe existingRecipe = optionalRecipe.get();
 //               System.out.println("Found existing recipe: " + existingRecipe);
                 if (recipeDTO.getImage() != null && !recipeDTO.getImage().isEmpty()) {
-                    existingRecipe.setImage(recipeDTO.getImage().getBytes());
+                    existingRecipe.setRecipeImage(recipeDTO.getImage().getBytes());
                 }
                 existingRecipe.setRecipeName(recipeDTO.getRecipeName());
                 existingRecipe.setDescription(recipeDTO.getDescription());
                 existingRecipe.setTotalTime(recipeDTO.getTotal_time());
-                existingRecipe.setPrep_time(recipeDTO.getPrep_time());
-                existingRecipe.setCook_time(recipeDTO.getCook_time());
+                existingRecipe.setPrepTime(recipeDTO.getPrep_time());
+                existingRecipe.setCookTime(recipeDTO.getCook_time());
                 existingRecipe.setYield(recipeDTO.getYield());
 
 //               System.out.println("Updated recipe: " + existingRecipe);

@@ -2,6 +2,7 @@ package com.recipemanagementsystem.demo.Controller;
 
 import com.recipemanagementsystem.demo.Dto.Recipe.RecipeDTO;
 import com.recipemanagementsystem.demo.Dto.Recipe.RecipeIngredientDTO;
+import com.recipemanagementsystem.demo.Dto.Recipe.RecipeInstructionsDTO;
 import com.recipemanagementsystem.demo.Services.recipe.RecipeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -61,6 +62,14 @@ public class UserController {
         else{
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @PutMapping("updateRecipeInstructions/{recipeId}")
+    public  ResponseEntity<?> updateRecipeInstruction(@PathVariable Long recipeId,
+                                                         @RequestBody List<RecipeInstructionsDTO> recipeInstructionsDTOList) throws IOException
+    {
+      recipeService.updateRecipeInstructions(recipeId, recipeInstructionsDTOList);
+      return ResponseEntity.ok(null);
     }
 
     @DeleteMapping("/deleteRecipe/{recipeId}")

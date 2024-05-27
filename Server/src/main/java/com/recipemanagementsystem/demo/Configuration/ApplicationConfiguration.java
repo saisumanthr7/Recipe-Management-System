@@ -1,6 +1,6 @@
 package com.recipemanagementsystem.demo.Configuration;
 
-import com.recipemanagementsystem.demo.Repository.UserRepository;
+import com.recipemanagementsystem.demo.Repository.user.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 
 @Data
 public class RecipeIngredientDTO {
-
     private Long ingredientId;
     private String ingredientName;
     private double quantity;
