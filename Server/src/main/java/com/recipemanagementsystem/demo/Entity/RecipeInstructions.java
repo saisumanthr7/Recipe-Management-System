@@ -1,5 +1,6 @@
 package com.recipemanagementsystem.demo.Entity;
 
+import com.recipemanagementsystem.demo.Dto.Recipe.RecipeInstructionsDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,4 +27,15 @@ public class RecipeInstructions {
     private String instruction;
 
     private byte[] instructionImage;
+
+    public RecipeInstructionsDTO getRecipeInstructionsDTO(){
+        RecipeInstructionsDTO recipeInstructionsDTO = new RecipeInstructionsDTO();
+        recipeInstructionsDTO.setStepNumber(this.getStepNumber());
+        recipeInstructionsDTO.setInstruction(this.getInstruction());
+        if(this.getInstructionImage() != null){
+            recipeInstructionsDTO.setReturnedInstructionImage(this.instructionImage);
+        }
+
+        return recipeInstructionsDTO;
+    }
 }

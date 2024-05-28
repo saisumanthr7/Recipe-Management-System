@@ -8,4 +8,5 @@ public class RecipeInstructionsDTO {
     private int stepNumber;
     private String instruction;
     private MultipartFile instructionImage;
+    private byte[] returnedInstructionImage;
 }

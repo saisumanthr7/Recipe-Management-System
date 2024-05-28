@@ -8,6 +8,7 @@ import com.recipemanagementsystem.demo.Entity.Recipe;
 import com.recipemanagementsystem.demo.Entity.RecipeIngredient;
 import com.recipemanagementsystem.demo.Entity.RecipeInstructions;
 import com.recipemanagementsystem.demo.Repository.recipe.IngredientRepository;
+import com.recipemanagementsystem.demo.Repository.recipe.RecipeIngredientRepository;
 import com.recipemanagementsystem.demo.Repository.recipe.RecipeInstructionsRepository;
 import com.recipemanagementsystem.demo.Repository.recipe.RecipeRepository;
 import jakarta.transaction.Transactional;
@@ -26,6 +27,7 @@ public class RecipeServiceImpl implements RecipeService{
 
     private final RecipeRepository recipeRepository;
     private final IngredientRepository ingredientRepository;
+    private final RecipeIngredientRepository recipeIngredientRepository;
     private final RecipeInstructionsRepository recipeInstructionsRepository;
 
     @Override
@@ -199,6 +201,52 @@ public class RecipeServiceImpl implements RecipeService{
             throw new RuntimeException(e);
         }
     }
+    @Override
+    public boolean updateRecipeInstructions(Long recipeId, List<RecipeInstructionsDTO> recipeInstructionsDTOList){
+        try{
+            Optional<Recipe> optionalRecipe = recipeRepository.findRecipeByRecipeId(recipeId);
+
+            if(optionalRecipe.isPresent()){
+                Recipe recipe = optionalRecipe.get();
+                List<RecipeInstructions> existingRecipeInstructions = recipe.getRecipeInstructionsList();
+                List<RecipeInstructions> updatedRecipeInstructions = new ArrayList<>();
+
+                for(RecipeInstructionsDTO recipeInstructionsDTO: recipeInstructionsDTOList){
+                    RecipeInstructions existingInstruction = existingRecipeInstructions.stream()
+                            .filter(recipeInstructions -> recipeInstructions.getStepNumber() == recipeInstructionsDTO.getStepNumber())
+                            .findFirst().orElse(null);
+                    if(existingInstruction != null){
+                        existingInstruction.setInstruction(recipeInstructionsDTO.getInstruction());
+                        if (recipeInstructionsDTO.getInstructionImage() != null && !recipeInstructionsDTO.getInstructionImage().isEmpty()) {
+                            existingInstruction.setInstructionImage(recipeInstructionsDTO.getInstructionImage().getBytes());
+                        }
+                        updatedRecipeInstructions.add(existingInstruction);
+                    }else{
+                        RecipeInstructions newInstruction = new RecipeInstructions();
+                        newInstruction.setRecipe(recipe);
+                        newInstruction.setStepNumber(recipeInstructionsDTO.getStepNumber());
+                        newInstruction.setInstruction(recipeInstructionsDTO.getInstruction());
+
+                        if (recipeInstructionsDTO.getInstructionImage() != null && !recipeInstructionsDTO.getInstructionImage().isEmpty()) {
+                            newInstruction.setInstructionImage(recipeInstructionsDTO.getInstructionImage().getBytes());
+                        }
+                        newInstruction.setRecipe(recipe);
+                        updatedRecipeInstructions.add(newInstruction);
+                    }
+                }
+                recipe.setRecipeInstructionsList(updatedRecipeInstructions);
+                recipeRepository.save(recipe);
+                return true;
+            }else{
+                System.out.println("Recipe not found for ID: " + recipeId);
+                return false;
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
 
 
     @Override
@@ -206,12 +254,37 @@ public class RecipeServiceImpl implements RecipeService{
         return recipeRepository.findAll().stream().map(Recipe::getRecipeDTO).collect(Collectors.toList());
     }
 
-    public boolean deleteRecipe(Long recipeId){
-        if(recipeId != null && recipeRepository.findById(recipeId) != null){
-            recipeRepository.deleteById(recipeId);
-            return true;
+    @Override
+    public List<RecipeIngredientDTO> getAllRecipeIngredients() {
+        return recipeIngredientRepository.findAll().stream().map(RecipeIngredient::getRecipeIngredientDTO).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<RecipeInstructionsDTO> getAllRecipeInstructions() {
+        return recipeInstructionsRepository.findAll().stream().map(RecipeInstructions::getRecipeInstructionsDTO).collect(Collectors.toList());
+    }
+
+    public boolean deleteRecipe(Long recipeId) {
+        if (recipeId == null) {
+            return false; // Recipe ID is null, nothing to delete
+        }
+
+        try {
+            Optional<Recipe> optionalRecipe = recipeRepository.findById(recipeId);
+            if (optionalRecipe.isPresent()) {
+                recipeRepository.deleteById(recipeId);
+                return true;
+            } else {
+                System.out.println("Recipe not found for ID: " + recipeId);
+                return false;
+            }
+        } catch (Exception e) {
+            // Log the exception
+            e.printStackTrace();
+            return false;
         }
         return false;
     }
+
 
 }

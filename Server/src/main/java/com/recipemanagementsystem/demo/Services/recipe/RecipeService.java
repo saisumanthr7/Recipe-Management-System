@@ -11,13 +11,18 @@ public interface RecipeService {
 
 
     boolean createRecipe(RecipeDTO recipeDTO) throws IOException;
+
     boolean updateRecipe(Long recipeId, RecipeDTO recipeDTO);
+
     boolean updateRecipeIngredients(Long recipeId, List<RecipeIngredientDTO> recipeIngredientDTOList);
 
-
-    void updateRecipeInstructions(Long recipeId, List<RecipeInstructionsDTO> recipeInstructionsDTO);
+    boolean updateRecipeInstructions(Long recipeId, List<RecipeInstructionsDTO> recipeInstructionsDTO);
 
     List<RecipeDTO> getAllRecipes();
+
+    List<RecipeIngredientDTO> getAllRecipeIngredients();
+
+    List<RecipeInstructionsDTO> getAllRecipeInstructions();
 
     boolean deleteRecipe(Long recipeId);
 }

@@ -3,6 +3,7 @@ package com.recipemanagementsystem.demo.Entity;
 
 import com.recipemanagementsystem.demo.Dto.Recipe.RecipeDTO;
 import com.recipemanagementsystem.demo.Dto.Recipe.RecipeIngredientDTO;
+import com.recipemanagementsystem.demo.Dto.Recipe.RecipeInstructionsDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -73,6 +74,12 @@ public class Recipe {
                     .map(RecipeIngredient::getRecipeIngredientDTO)
                     .collect(Collectors.toList());
             recipeDTO.setRecipeIngredientDTOList(recipeIngredientDTOList);
+        }
+
+        if(this.recipeInstructionsList != null){
+            List<RecipeInstructionsDTO> recipeInstructionsDTOList = this.recipeInstructionsList.stream()
+                    .map(RecipeInstructions::getRecipeInstructionsDTO).toList();
+            recipeDTO.setRecipeInstructionsDTOList(recipeInstructionsDTOList);
         }
         return recipeDTO;
     }

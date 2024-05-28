@@ -25,6 +25,18 @@ public class UserController {
         return ResponseEntity.ok(recipeDTOList);
     }
 
+    @GetMapping("/recipeIngredients")
+    public ResponseEntity<List<RecipeIngredientDTO>> getAllRecipeIngredients(){
+        List<RecipeIngredientDTO> recipeIngredientDTOList = recipeService.getAllRecipeIngredients();
+        return ResponseEntity.ok(recipeIngredientDTOList);
+    }
+
+    @GetMapping("/recipeInstructions")
+    public ResponseEntity<List<RecipeInstructionsDTO>> getAllRecipeInstructions(){
+        List<RecipeInstructionsDTO> recipeInstructionsDTOList = recipeService.getAllRecipeInstructions();
+        return ResponseEntity.ok(recipeInstructionsDTOList);
+    }
+
     @PostMapping("/createRecipe")
     public <T> ResponseEntity<T> createRecipe(@RequestBody RecipeDTO recipeDTO) throws IOException
     {
@@ -39,8 +51,7 @@ public class UserController {
 
     @PutMapping("/updateRecipe/{recipeId}")
     public <T> ResponseEntity<T> updateRecipe(@PathVariable Long recipeId,
-                                              @RequestBody RecipeDTO recipeDTO) throws IOException
-    {
+                                              @RequestBody RecipeDTO recipeDTO) {
         boolean success = recipeService.updateRecipe(recipeId, recipeDTO);
 
         if(success){
@@ -52,8 +63,7 @@ public class UserController {
 
     @PutMapping("updateRecipeIngredients/{recipeId}")
     public <T> ResponseEntity<T> updateRecipeIngredients(@PathVariable Long recipeId,
-                                                         @RequestBody List<RecipeIngredientDTO> recipeIngredientDTOList) throws  IOException
-    {
+                                                         @RequestBody List<RecipeIngredientDTO> recipeIngredientDTOList) {
         boolean success = recipeService.updateRecipeIngredients(recipeId, recipeIngredientDTOList);
 
         if(success) {
@@ -66,10 +76,15 @@ public class UserController {
 
     @PutMapping("updateRecipeInstructions/{recipeId}")
     public  ResponseEntity<?> updateRecipeInstruction(@PathVariable Long recipeId,
-                                                         @RequestBody List<RecipeInstructionsDTO> recipeInstructionsDTOList) throws IOException
-    {
-      recipeService.updateRecipeInstructions(recipeId, recipeInstructionsDTOList);
-      return ResponseEntity.ok(null);
+                                                         @RequestBody List<RecipeInstructionsDTO> recipeInstructionsDTOList) {
+        boolean success = recipeService.updateRecipeInstructions(recipeId, recipeInstructionsDTOList);
+
+        if(success) {
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        }
+        else{
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @DeleteMapping("/deleteRecipe/{recipeId}")
