@@ -8,5 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface RecipeInstructionsRepository extends JpaRepository<RecipeInstructions, Long> {
-    Optional<RecipeInstructions> findInstructionByStepNumber(int stepNumber);
+    Optional<RecipeInstructions> findByInstructionId(Long instructionId);
 }

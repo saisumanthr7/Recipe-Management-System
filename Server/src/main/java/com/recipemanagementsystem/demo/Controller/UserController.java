@@ -98,4 +98,30 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+
+    @DeleteMapping("/deleteRecipeIngredient/{recipeId}/recipeIngredient/{recipeIngredientId}")
+    public ResponseEntity<?> deleteRecipeIngredient(@PathVariable Long recipeId,
+                                                    @PathVariable Long recipeIngredientId){
+        boolean success = recipeService.deleteRecipeIngredients(recipeId, recipeIngredientId);
+
+        if(success) {
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        }
+        else{
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @DeleteMapping("/deleteRecipeInstruction/{recipeId}/recipeInstruction/{recipeInstructionId}")
+    public ResponseEntity<?> deleteRecipeInstruction(@PathVariable Long recipeId,
+                                                    @PathVariable Long recipeInstructionId){
+        boolean success = recipeService.deleteRecipeInstructions(recipeId, recipeInstructionId);
+
+        if(success) {
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        }
+        else{
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
 }

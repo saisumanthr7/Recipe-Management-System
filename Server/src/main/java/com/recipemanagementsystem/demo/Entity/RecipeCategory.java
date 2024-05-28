@@ -18,5 +18,5 @@ public class RecipeCategory {
     private String recipeCategoryName;
 
     @OneToMany(mappedBy = "recipeCategory")
-    private List<Recipe> recipeList;
+    private List<Recipe> recipes;
 }

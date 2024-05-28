@@ -264,6 +264,8 @@ public class RecipeServiceImpl implements RecipeService{
         return recipeInstructionsRepository.findAll().stream().map(RecipeInstructions::getRecipeInstructionsDTO).collect(Collectors.toList());
     }
 
+
+
     public boolean deleteRecipe(Long recipeId) {
         if (recipeId == null) {
             return false; // Recipe ID is null, nothing to delete
@@ -283,8 +285,65 @@ public class RecipeServiceImpl implements RecipeService{
             e.printStackTrace();
             return false;
         }
-        return false;
     }
 
+    @Override
+    public boolean deleteRecipeIngredients(Long recipeId, Long recipeIngredientId) {
+        if(recipeId == null || recipeIngredientId == null){
+            return false;
+        }
 
+        try{
+            Optional<Recipe> optionalRecipe = recipeRepository.findById(recipeId);
+            if(optionalRecipe.isPresent()){
+                Optional<RecipeIngredient> recipeIngredients =
+                        recipeIngredientRepository.findByRecipeIngredientId(recipeIngredientId);
+                if(recipeIngredients.isPresent() &&
+                        recipeIngredients.get().getRecipe().getRecipeId().equals(recipeId)){
+                    recipeIngredientRepository.deleteById(recipeIngredientId);
+                    return true;
+                }else {
+                    System.out.println("Recipe ingredients not found for ID: " + recipeIngredientId);
+                    return false;
+                }
+            }else{
+                System.out.println("Recipe not found for ID: " + recipeId);
+                return false;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
+    public boolean deleteRecipeInstructions(Long recipeId, Long recipeInstructionId) {
+        if(recipeId == null || recipeInstructionId == null){
+            return false;
+        }
+
+        try{
+            Optional<Recipe> optionalRecipe = recipeRepository.findById(recipeId);
+            if(optionalRecipe.isPresent()){
+                Optional<RecipeInstructions> recipeInstruction =
+                        recipeInstructionsRepository.findByInstructionId(recipeInstructionId);
+                if(recipeInstruction.isPresent() &&
+                        recipeInstruction.get().getRecipe().getRecipeId().equals(recipeId)){
+                    recipeInstructionsRepository.deleteById(recipeInstructionId);
+                    return true;
+                }else{
+                    System.out.println("Recipe instruction not found for ID: " + recipeInstructionId);
+                    return false;
+                }
+            }else {
+                System.out.println("Recipe not found for ID: " + recipeId);
+                return false;
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
 }
