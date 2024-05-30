@@ -3,14 +3,9 @@ package com.recipemanagementsystem.demo.Services.recipe;
 import com.recipemanagementsystem.demo.Dto.Recipe.RecipeDTO;
 import com.recipemanagementsystem.demo.Dto.Recipe.RecipeIngredientDTO;
 import com.recipemanagementsystem.demo.Dto.Recipe.RecipeInstructionsDTO;
-import com.recipemanagementsystem.demo.Entity.Ingredient;
-import com.recipemanagementsystem.demo.Entity.Recipe;
-import com.recipemanagementsystem.demo.Entity.RecipeIngredient;
-import com.recipemanagementsystem.demo.Entity.RecipeInstructions;
-import com.recipemanagementsystem.demo.Repository.recipe.IngredientRepository;
-import com.recipemanagementsystem.demo.Repository.recipe.RecipeIngredientRepository;
-import com.recipemanagementsystem.demo.Repository.recipe.RecipeInstructionsRepository;
-import com.recipemanagementsystem.demo.Repository.recipe.RecipeRepository;
+import com.recipemanagementsystem.demo.Entity.*;
+import com.recipemanagementsystem.demo.Repository.recipe.*;
+import com.recipemanagementsystem.demo.Repository.user.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,15 +20,20 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class RecipeServiceImpl implements RecipeService{
 
+    private final UserRepository userRepository;
     private final RecipeRepository recipeRepository;
     private final IngredientRepository ingredientRepository;
     private final RecipeIngredientRepository recipeIngredientRepository;
     private final RecipeInstructionsRepository recipeInstructionsRepository;
+    private final CategoryRepository categoryRepository;
 
     @Override
     @Transactional
-    public boolean createRecipe(RecipeDTO recipeDTO) throws IOException {
+    public boolean createRecipe(Long userId, RecipeDTO recipeDTO) throws IOException {
         try{
+
+            User user = userRepository.findById(Math.toIntExact(userId))
+                    .orElseThrow(() -> new IllegalArgumentException("User not found with Id: " + userId));
             Recipe recipe = new Recipe();
             recipe.setRecipeName(recipeDTO.getRecipeName());
             recipe.setDescription(recipeDTO.getDescription());
@@ -41,11 +41,32 @@ public class RecipeServiceImpl implements RecipeService{
             recipe.setPrepTime(recipeDTO.getPrep_time());
             recipe.setCookTime(recipeDTO.getCook_time());
             recipe.setYield(recipeDTO.getYield());
+            recipe.setUser(user);
 
             if (recipeDTO.getImage() != null && !recipeDTO.getImage().isEmpty()) {
                 recipe.setRecipeImage(recipeDTO.getImage().getBytes());
             } else {
                 recipe.setRecipeImage(null);
+            }
+
+            List<Category> categoryList = new ArrayList<>();
+            if(recipeDTO.getRecipeCategoriesList() != null && !recipeDTO.getRecipeCategoriesList().isEmpty()){
+                for(String categoryName: recipeDTO.getRecipeCategoriesList()){
+
+                    //Check if the category already exists in the database
+                    Category category = categoryRepository.findByCategoryName(categoryName);
+                    if(category == null){
+                        category = new Category();
+                        category.setCategoryName(categoryName);
+                        category = categoryRepository.save(category);
+                    }
+
+                    // Add the category to the list
+                    categoryList.add(category);
+                }
+
+                // Set the list of categories for the recipe
+                recipe.setRecipeCategories(categoryList);
             }
 
             List<RecipeIngredient> recipeIngredients = new ArrayList<>();

@@ -1,6 +1,6 @@
 package com.recipemanagementsystem.demo.Dto.Recipe;
 
-import com.recipemanagementsystem.demo.Entity.RecipeInstructions;
+import com.recipemanagementsystem.demo.Entity.Category;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,6 +28,8 @@ public class RecipeDTO {
     private MultipartFile image;
 
     private byte[] returnedImage;
+
+    private List<String> recipeCategoriesList;
 
     private List<RecipeIngredientDTO> recipeIngredientDTOList;
 

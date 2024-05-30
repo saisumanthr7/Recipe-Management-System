@@ -43,9 +43,13 @@ public class Recipe {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne
-    @JoinColumn(name = "recipeCategory_id")
-    private RecipeCategory recipeCategory;
+    @ManyToMany
+    @JoinTable(
+            name = "recipe_category_mapping",
+            joinColumns = @JoinColumn(name = "recipe_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id")
+    )
+    private List<Category> recipeCategories;
 
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
     private List<RecipeIngredient> recipeIngredientsList;

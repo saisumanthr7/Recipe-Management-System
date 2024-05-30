@@ -10,7 +10,7 @@ import java.util.List;
 public interface RecipeService {
 
 
-    boolean createRecipe(RecipeDTO recipeDTO) throws IOException;
+    boolean createRecipe(Long userId, RecipeDTO recipeDTO) throws IOException;
 
     boolean updateRecipe(Long recipeId, RecipeDTO recipeDTO);
 

@@ -9,14 +9,15 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class RecipeCategory {
+public class Category {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long recipeCategoryId;
+    private Long categoryId;
 
-    private String recipeCategoryName;
+    @Column(unique = true)
+    private String categoryName;
 
-    @OneToMany(mappedBy = "recipeCategory")
+    @ManyToMany(mappedBy = "recipeCategories")
     private List<Recipe> recipes;
 }

@@ -37,10 +37,11 @@ public class UserController {
         return ResponseEntity.ok(recipeInstructionsDTOList);
     }
 
-    @PostMapping("/createRecipe")
-    public <T> ResponseEntity<T> createRecipe(@RequestBody RecipeDTO recipeDTO) throws IOException
+    @PostMapping("/createRecipe/{userId}")
+    public <T> ResponseEntity<T> createRecipe(@PathVariable Long userId,
+                                              @RequestBody RecipeDTO recipeDTO) throws IOException
     {
-        boolean success = recipeService.createRecipe(recipeDTO);
+        boolean success = recipeService.createRecipe(userId, recipeDTO);
             if(success){
                 return new  ResponseEntity<>(HttpStatus.CREATED);
             }
