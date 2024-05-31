@@ -1,5 +1,6 @@
 package com.recipemanagementsystem.demo.Services.recipe;
 
+import com.recipemanagementsystem.demo.Dto.Recipe.RecipeCategoryDTO;
 import com.recipemanagementsystem.demo.Dto.Recipe.RecipeDTO;
 import com.recipemanagementsystem.demo.Dto.Recipe.RecipeIngredientDTO;
 import com.recipemanagementsystem.demo.Dto.Recipe.RecipeInstructionsDTO;
@@ -13,6 +14,9 @@ public interface RecipeService {
     boolean createRecipe(Long userId, RecipeDTO recipeDTO) throws IOException;
 
     boolean updateRecipe(Long recipeId, RecipeDTO recipeDTO);
+
+
+    boolean updateRecipeCategories(Long recipeId, List<RecipeCategoryDTO> recipeCategoryDTOList);
 
     boolean updateRecipeIngredients(Long recipeId, List<RecipeIngredientDTO> recipeIngredientDTOList);
 
@@ -29,4 +33,5 @@ public interface RecipeService {
     boolean deleteRecipeIngredients(Long recipeId,Long recipeIngredientId);
 
     boolean deleteRecipeInstructions(Long recipeId, Long recipeInstructionId);
+
 }

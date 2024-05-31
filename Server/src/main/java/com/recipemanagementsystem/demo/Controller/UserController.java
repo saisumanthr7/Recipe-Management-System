@@ -1,5 +1,6 @@
 package com.recipemanagementsystem.demo.Controller;
 
+import com.recipemanagementsystem.demo.Dto.Recipe.RecipeCategoryDTO;
 import com.recipemanagementsystem.demo.Dto.Recipe.RecipeDTO;
 import com.recipemanagementsystem.demo.Dto.Recipe.RecipeIngredientDTO;
 import com.recipemanagementsystem.demo.Dto.Recipe.RecipeInstructionsDTO;
@@ -79,6 +80,19 @@ public class UserController {
     public  ResponseEntity<?> updateRecipeInstruction(@PathVariable Long recipeId,
                                                          @RequestBody List<RecipeInstructionsDTO> recipeInstructionsDTOList) {
         boolean success = recipeService.updateRecipeInstructions(recipeId, recipeInstructionsDTOList);
+
+        if(success) {
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        }
+        else{
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PutMapping("updateRecipeCategories/{recipeId}")
+    public ResponseEntity<?> updateRecipeCategories(@PathVariable Long recipeId,
+                                                    @RequestBody List<RecipeCategoryDTO> recipeCategoryDTO){
+        boolean success = recipeService.updateRecipeCategories(recipeId, recipeCategoryDTO);
 
         if(success) {
             return new ResponseEntity<>(HttpStatus.CREATED);

@@ -1,5 +1,6 @@
 package com.recipemanagementsystem.demo.Services.recipe;
 
+import com.recipemanagementsystem.demo.Dto.Recipe.RecipeCategoryDTO;
 import com.recipemanagementsystem.demo.Dto.Recipe.RecipeDTO;
 import com.recipemanagementsystem.demo.Dto.Recipe.RecipeIngredientDTO;
 import com.recipemanagementsystem.demo.Dto.Recipe.RecipeInstructionsDTO;
@@ -126,7 +127,10 @@ public class RecipeServiceImpl implements RecipeService{
         }
     }
 
+
+
     @Override
+    @Transactional
     public boolean updateRecipe(Long recipeId, RecipeDTO recipeDTO) {
         try{
             Optional<Recipe> optionalRecipe = recipeRepository.findRecipeByRecipeId(recipeId);
@@ -161,6 +165,7 @@ public class RecipeServiceImpl implements RecipeService{
     }
 
     @Override
+    @Transactional
     public boolean updateRecipeIngredients(Long recipeId, List<RecipeIngredientDTO> recipeIngredientDTOList) {
         try {
             Optional<Recipe> optionalRecipe = recipeRepository.findRecipeByRecipeId(recipeId);
@@ -223,6 +228,7 @@ public class RecipeServiceImpl implements RecipeService{
         }
     }
     @Override
+    @Transactional
     public boolean updateRecipeInstructions(Long recipeId, List<RecipeInstructionsDTO> recipeInstructionsDTOList){
         try{
             Optional<Recipe> optionalRecipe = recipeRepository.findRecipeByRecipeId(recipeId);
@@ -268,6 +274,52 @@ public class RecipeServiceImpl implements RecipeService{
             return false;
         }
     }
+
+    @Override
+    @Transactional
+    public boolean updateRecipeCategories(Long recipeId, List<RecipeCategoryDTO> recipeCategoryDTOList) {
+        try {
+            // Fetch the recipe by its ID
+            Optional<Recipe> optionalRecipe = recipeRepository.findById(recipeId);
+
+            if (optionalRecipe.isPresent()) {
+                Recipe recipe = optionalRecipe.get();
+
+                // Retrieve the existing categories of the recipe
+                List<Category> existingRecipeCategories = recipe.getRecipeCategories();
+                List<Category> updateRecipeCategories = new ArrayList<>(existingRecipeCategories);
+
+                for (RecipeCategoryDTO recipeCategoryDTO : recipeCategoryDTOList) {
+                    // Check if the category already exists
+                    Category category = categoryRepository.findByCategoryName(recipeCategoryDTO.getRecipeCategoryName());
+
+                    if (category == null) {
+                        // If the category does not exist, create a new one
+                        category = new Category();
+                        category.setCategoryName(recipeCategoryDTO.getRecipeCategoryName());
+                        category = categoryRepository.save(category);
+                    }
+
+                    // Add the category to the updated categories list if not already present
+                    if (!updateRecipeCategories.contains(category)) {
+                        updateRecipeCategories.add(category);
+                    }
+                }
+
+                // Update the recipe with the new list of categories
+                recipe.setRecipeCategories(updateRecipeCategories);
+                recipeRepository.save(recipe);
+                return true;
+            } else {
+                // Recipe not found
+                return false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 
 
     @Override
