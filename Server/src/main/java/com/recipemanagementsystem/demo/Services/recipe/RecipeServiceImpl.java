@@ -401,6 +401,7 @@ public class RecipeServiceImpl implements RecipeService{
             if(optionalRecipe.isPresent()){
                 Optional<RecipeInstructions> recipeInstruction =
                         recipeInstructionsRepository.findByInstructionId(recipeInstructionId);
+
                 if(recipeInstruction.isPresent() &&
                         recipeInstruction.get().getRecipe().getRecipeId().equals(recipeId)){
                     recipeInstructionsRepository.deleteById(recipeInstructionId);
@@ -419,4 +420,50 @@ public class RecipeServiceImpl implements RecipeService{
             return false;
         }
     }
+
+    @Override
+    @Transactional
+    public boolean deleteRecipeCategory(Long recipeId, Long categoryId) {
+        if (recipeId == null || categoryId == null) {
+//            System.out.println("Invalid input: recipeId or categoryId is null");
+            return false;
+        }
+
+        try {
+            Optional<Recipe> optionalRecipe = recipeRepository.findById(recipeId);
+            if (optionalRecipe.isPresent()) {
+                Recipe recipe = optionalRecipe.get();
+                List<Category> existingRecipeCategories = recipe.getRecipeCategories();
+
+                // Find the category to delete by ID
+                Category categoryToDelete = null;
+                for (Category category : existingRecipeCategories) {
+                    if (category.getCategoryId().equals(categoryId)) {
+                        categoryToDelete = category;
+                        break;
+                    }
+                }
+
+                // If the category is found, remove it
+                if (categoryToDelete != null) {
+                    existingRecipeCategories.remove(categoryToDelete);
+                    recipe.setRecipeCategories(existingRecipeCategories);
+                    recipeRepository.save(recipe);
+//                    System.out.println("Category with ID " + categoryId + " removed from recipeId: " + recipeId);
+                    return true;
+                } else {
+//                    System.out.println("Category with ID " + categoryId + " not found in recipeId: " + recipeId);
+                    return false;
+                }
+            } else {
+//                System.out.println("Recipe not found for recipeId: " + recipeId);
+                return false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
 }

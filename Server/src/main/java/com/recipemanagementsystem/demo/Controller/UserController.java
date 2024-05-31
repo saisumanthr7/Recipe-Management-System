@@ -119,11 +119,10 @@ public class UserController {
                                                     @PathVariable Long recipeIngredientId){
         boolean success = recipeService.deleteRecipeIngredients(recipeId, recipeIngredientId);
 
-        if(success) {
-            return new ResponseEntity<>(HttpStatus.CREATED);
-        }
-        else{
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        if (success) {
+            return ResponseEntity.ok("Recipe Ingredient deleted successfully.");
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to delete recipe ingredient.");
         }
     }
 
@@ -132,11 +131,22 @@ public class UserController {
                                                     @PathVariable Long recipeInstructionId){
         boolean success = recipeService.deleteRecipeInstructions(recipeId, recipeInstructionId);
 
-        if(success) {
-            return new ResponseEntity<>(HttpStatus.CREATED);
+        if (success) {
+            return ResponseEntity.ok("Recipe Instruction deleted successfully.");
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to delete recipe Instruction.");
         }
-        else{
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+    @DeleteMapping("/deleteRecipeCategory/{recipeId}/recipeCateogry/{recipeCategoryId}")
+    public ResponseEntity<?> deleteRecipeCategory(@PathVariable Long recipeId,
+                                                  @PathVariable Long recipeCategoryId){
+        boolean success = recipeService.deleteRecipeCategory(recipeId, recipeCategoryId);
+
+        if (success) {
+            return ResponseEntity.ok("Recipe Category deleted successfully.");
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to delete category.");
         }
     }
 }

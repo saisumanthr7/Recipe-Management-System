@@ -34,4 +34,6 @@ public interface RecipeService {
 
     boolean deleteRecipeInstructions(Long recipeId, Long recipeInstructionId);
 
+    boolean deleteRecipeCategory(Long recipeId, Long recipeCategoryId);
+
 }
