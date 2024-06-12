@@ -28,6 +28,8 @@ public interface RecipeService {
 
     List<RecipeInstructionsDTO> getAllRecipeInstructions();
 
+    List<RecipeCategoryDTO> getAllRecipeCategories();
+
     boolean deleteRecipe(Long recipeId);
 
     boolean deleteRecipeIngredients(Long recipeId,Long recipeIngredientId);

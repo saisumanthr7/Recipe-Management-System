@@ -29,7 +29,7 @@ public class RecipeDTO {
 
     private byte[] returnedImage;
 
-    private List<String> recipeCategoriesList;
+    private List<RecipeCategoryDTO> recipeCategoriesList;
 
     private List<RecipeIngredientDTO> recipeIngredientDTOList;
 

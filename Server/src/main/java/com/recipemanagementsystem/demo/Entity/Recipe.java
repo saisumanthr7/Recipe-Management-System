@@ -86,6 +86,10 @@ public class Recipe {
                     .map(RecipeInstructions::getRecipeInstructionsDTO).toList();
             recipeDTO.setRecipeInstructionsDTOList(recipeInstructionsDTOList);
         }
+        if(this.recipeCategories != null){
+            recipeDTO.setRecipeCategoriesList(this.recipeCategories.stream()
+                    .map(Category::toRecipeCategoryDTO).collect(Collectors.toList()));
+        }
 
 
         return recipeDTO;

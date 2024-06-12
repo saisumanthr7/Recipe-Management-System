@@ -52,13 +52,13 @@ public class RecipeServiceImpl implements RecipeService{
 
             List<Category> categoryList = new ArrayList<>();
             if(recipeDTO.getRecipeCategoriesList() != null && !recipeDTO.getRecipeCategoriesList().isEmpty()){
-                for(String categoryName: recipeDTO.getRecipeCategoriesList()){
+                for(RecipeCategoryDTO categoryName: recipeDTO.getRecipeCategoriesList()){
 
                     //Check if the category already exists in the database
-                    Category category = categoryRepository.findByCategoryName(categoryName);
+                    Category category = categoryRepository.findByCategoryName(categoryName.getRecipeCategoryName());
                     if(category == null){
                         category = new Category();
-                        category.setCategoryName(categoryName);
+                        category.setCategoryName(categoryName.getRecipeCategoryName());
                         category = categoryRepository.save(category);
                     }
 
@@ -337,8 +337,14 @@ public class RecipeServiceImpl implements RecipeService{
         return recipeInstructionsRepository.findAll().stream().map(RecipeInstructions::getRecipeInstructionsDTO).collect(Collectors.toList());
     }
 
+    @Override
+    public List<RecipeCategoryDTO> getAllRecipeCategories(){
+        return categoryRepository.findAll().stream().map(Category::toRecipeCategoryDTO).collect(Collectors.toList());
+    }
 
 
+
+    @Transactional
     public boolean deleteRecipe(Long recipeId) {
         if (recipeId == null) {
             return false; // Recipe ID is null, nothing to delete
@@ -361,6 +367,7 @@ public class RecipeServiceImpl implements RecipeService{
     }
 
     @Override
+    @Transactional
     public boolean deleteRecipeIngredients(Long recipeId, Long recipeIngredientId) {
         if(recipeId == null || recipeIngredientId == null){
             return false;
@@ -391,6 +398,7 @@ public class RecipeServiceImpl implements RecipeService{
     }
 
     @Override
+    @Transactional
     public boolean deleteRecipeInstructions(Long recipeId, Long recipeInstructionId) {
         if(recipeId == null || recipeInstructionId == null){
             return false;

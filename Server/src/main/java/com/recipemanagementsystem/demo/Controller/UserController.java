@@ -38,6 +38,12 @@ public class UserController {
         return ResponseEntity.ok(recipeInstructionsDTOList);
     }
 
+    @GetMapping("/recipeCategories")
+    public ResponseEntity<List<RecipeCategoryDTO>> getAllRecipeCategories(){
+        List<RecipeCategoryDTO> recipeCategoryDTOList = recipeService.getAllRecipeCategories();
+        return ResponseEntity.ok(recipeCategoryDTOList);
+    }
+
     @PostMapping("/createRecipe/{userId}")
     public <T> ResponseEntity<T> createRecipe(@PathVariable Long userId,
                                               @RequestBody RecipeDTO recipeDTO) throws IOException

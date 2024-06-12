@@ -1,5 +1,6 @@
 package com.recipemanagementsystem.demo.Entity;
 
+import com.recipemanagementsystem.demo.Dto.Recipe.RecipeCategoryDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -21,4 +22,11 @@ public class Category {
 
     @ManyToMany(mappedBy = "recipeCategories")
     private List<Recipe> recipes;
+
+
+    public RecipeCategoryDTO toRecipeCategoryDTO(){
+        RecipeCategoryDTO dto = new RecipeCategoryDTO();
+        dto.setRecipeCategoryName(this.categoryName);
+        return dto;
+    }
 }
