@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../service/auth/auth.service';
 import { Router } from '@angular/router';
+import { StorageService } from '../../service/storage/storage.service';
 
 @Component({
   selector: 'app-login',
@@ -25,7 +26,7 @@ export class LoginComponent {
   }
 
   login() {
-    console.log(this.loginForm.value);
+    // console.log(this.loginForm.value);
     if(this.loginForm.valid){
       this.authService.login(this.loginForm.value).subscribe((res) => {
         if(res.id != null){
@@ -33,9 +34,17 @@ export class LoginComponent {
             id: res.id,
             role: res.role
           }
+          StorageService.saveUser(user);
+          StorageService.saveToken(res.jwt);
+          if(StorageService.isAdminLoggedIn()){
+            this.router.navigateByUrl("/admin/dashboard");
+          }else if(StorageService.isCustomerLoggedIn()){
+            this.router.navigateByUrl("/customer/dashboard")
+          }else{
+            alert("Bad Credentials")
+          }
         }
       })
     }
   }
-
 }
