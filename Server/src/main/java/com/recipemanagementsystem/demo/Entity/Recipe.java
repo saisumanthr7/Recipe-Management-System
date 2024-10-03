@@ -90,8 +90,6 @@ public class Recipe {
             recipeDTO.setRecipeCategoriesList(this.recipeCategories.stream()
                     .map(Category::toRecipeCategoryDTO).collect(Collectors.toList()));
         }
-
-
         return recipeDTO;
     }
 }
